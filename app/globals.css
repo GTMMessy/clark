@@ -1,0 +1,286 @@
+:root {
+  --ink: #1f1d18;
+  --olive: #7a7854;
+  --faint: #a09e92;
+  --line: #dddbd2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+}
+
+p {
+  margin: 0 0 22px;
+}
+
+a,
+button.link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+button.link {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+button.link:disabled {
+  color: var(--faint);
+  cursor: default;
+}
+
+.col {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.center {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.olive {
+  color: var(--olive);
+}
+
+.faint {
+  color: var(--faint);
+}
+
+.plain {
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+input,
+textarea {
+  font: inherit;
+  letter-spacing: 0.01em;
+  color: inherit;
+  width: 100%;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 6px 0;
+  margin: 0 0 30px;
+  outline: none;
+  resize: none;
+}
+
+input:focus,
+textarea:focus {
+  border-bottom-color: var(--ink);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--faint);
+}
+
+label {
+  display: block;
+}
+
+.page {
+  padding-top: 72px;
+  padding-bottom: 96px;
+}
+
+.block {
+  margin-bottom: 40px;
+}
+
+.label {
+  color: var(--faint);
+}
+
+.swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-right: 6px;
+  border: 1px solid var(--line);
+  vertical-align: -1px;
+}
+
+.row {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 44px;
+}
+
+.row > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.thumb {
+  flex: none;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  background: #f4f3ee;
+}
+
+.thumb.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--faint);
+}
+
+input.price {
+  display: inline-block;
+  width: 84px;
+  margin: 0 0 0 2px;
+  padding: 0;
+}
+
+.tight {
+  margin-bottom: 6px;
+}
+
+.tight input,
+.tight textarea {
+  margin-bottom: 10px;
+}
+
+.pulse {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.wide {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 32px 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+}
+
+.wide > section:first-child {
+  padding: 24px 52px 0 0;
+}
+
+/* The chat fills the window's height; its prompts sit small at the very bottom so the conversation gets the room. */
+.chat {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--line);
+  padding: 24px 0 0 52px;
+}
+
+.chat-lines {
+  overflow-y: auto;
+  flex: 1;
+  margin-bottom: 14px;
+}
+
+.chat-lines p {
+  white-space: pre-wrap;
+}
+
+.chat input {
+  margin-bottom: 10px;
+}
+
+.presets,
+.review {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.presets button {
+  margin: 0 14px 2px 0;
+}
+
+.review {
+  margin: 4px 0 0;
+}
+
+.item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.item img {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  background: #f4f3ee;
+}
+
+.log div {
+  display: flex;
+  gap: 14px;
+}
+
+.log .when {
+  flex: none;
+  width: 52px;
+  color: var(--faint);
+}
+
+@media (max-width: 900px) {
+  .wide {
+    grid-template-columns: 1fr;
+  }
+  .wide > section:first-child {
+    padding-right: 0;
+  }
+  .chat {
+    position: static;
+    height: 80vh;
+    border-left: 0;
+    padding-left: 0;
+    margin-top: 48px;
+  }
+}
+
+strong {
+  font-weight: 700;
+}
+
+.item.creative img {
+  width: 200px;
+  height: 200px;
+}

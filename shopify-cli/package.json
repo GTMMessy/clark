@@ -1,0 +1,1 @@
+{ "name": "clark-shopify-cli", "private": true, "dependencies": { "@shopify/cli": "4.9.3" } }

@@ -1,0 +1,10 @@
+node_modules
+.next
+.env*
+.vercel
+.context
+.playwright-mcp
+next-env.d.ts
+*.tsbuildinfo
+.data
+supabase/.temp
