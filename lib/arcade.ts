@@ -34,7 +34,8 @@ export type Job = {
   error: { message?: string } | null;
 };
 
-// One job designs the pattern and builds its product; jewelry categories accept a prompt only.
+// One job designs and builds the product. products/generate takes only a prompt and a category, so the
+// palette, when there is one, is written into the prompt itself.
 export async function startProduct(input: {
   requestId: string;
   prompt: string;
@@ -43,13 +44,13 @@ export async function startProduct(input: {
 }): Promise<Job> {
   const category = (await listCategories()).find((c) => c.categoryId === input.categoryId);
   if (!category) throw new Error("Unknown Arcade category");
-  const body: Record<string, unknown> = {
+  const palette =
+    category.world === "print" && input.colors?.length ? ` Colours: ${input.colors.join(", ")}.` : "";
+  return arcade<Job>("products/generate", {
     requestId: input.requestId,
-    prompt: input.prompt.slice(0, 1000),
+    prompt: (input.prompt.slice(0, 1000 - palette.length) + palette).trim(),
     categoryId: input.categoryId,
-  };
-  if (category.world === "print" && input.colors?.length) body.colors = input.colors;
-  return arcade<Job>("patterns/create", body);
+  });
 }
 
 export const getJob = (jobId: string) => arcade<Job>("jobs/get", { jobId });
@@ -66,9 +67,14 @@ export type ArcadeProduct = {
 
 export const getArcadeProduct = (productId: string) => arcade<ArcadeProduct>("products/get", { productId });
 
-export const createCheckout = (requestId: string, productId: string, quantity: number) =>
-  arcade<{ checkoutId: string; checkoutUrl: string }>("checkouts/create", {
+// Drop-shipping a single item has a credit cost that must be quoted, then confirmed in the checkout request.
+export async function createCheckout(requestId: string, productId: string, quantity: number) {
+  const quote = await arcade<{ creditCost: number; revision: string }>("checkouts/quoteDropshipping", {});
+  return arcade<{ checkoutId: string; checkoutUrl: string }>("checkouts/create", {
     requestId,
     lines: [{ productId, quantity }],
     dropShip: true,
+    expectedDropshippingCreditCost: quote.creditCost,
+    expectedDropshippingPolicyRevision: Number(quote.revision),
   });
+}

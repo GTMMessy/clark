@@ -17,16 +17,16 @@ Built in a day for Shopping 3.0, the AI Commerce Hackathon with Arcade.
   copy and publishes the products.
 - **Command center:** products with cost, price and margin, orders, ad drafts with finished artwork, an
   activity log, and a chat with Clark.
-- **Every morning:** Clark reviews each live store on its own, makes at most one small change and proposes
-  the next moves.
+- **Morning review:** Clark reviews a store, makes at most one small change and proposes the next moves. It
+  runs from the command center; the daily schedule (a Vercel cron on `/api/cron/daily`) is switched off.
 
 ## How it works
 
 - Next.js on Vercel.
 - One agent, one conversation per store, on Claude through the Anthropic SDK with a streaming tool loop.
   Launch is the same agent following a checklist of tools that refuse to run out of order.
-- Arcade API for products: `categories/list`, `patterns/create`, `jobs/get`, `products/get`,
-  `checkouts/create`.
+- Arcade API for products: `categories/list`, `products/generate`, `jobs/get`, `products/get`,
+  `checkouts/quoteDropshipping` and `checkouts/create`.
 - Shopify: the store is created with the Shopify CLI's account-free preview store, then edited through the
   Admin API (products, theme files, images).
 - Supabase (one key-value table) for store records.
@@ -49,7 +49,7 @@ ANTHROPIC_API_KEY=
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 ACCESS_PASSWORD=        # optional: gate the app behind an access code
-CRON_SECRET=            # for the daily review
+CRON_SECRET=            # only if you schedule the daily review
 ```
 
 Apply `supabase/migrations` to create the table.
